@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Purple Aesthetic Calculator</title>
+<style>
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        background: linear-gradient(135deg, #2a003f, #4b0082, #6a0dad);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .calculator {
+        background: rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(15px);
+        padding: 20px;
+        border-radius: 20px;
+        width: 270px;
+        box-shadow: 0 0 25px rgba(138, 43, 226, 0.6);
+    }
+
+    #display {
+        width: 100%;
+        height: 55px;
+        font-size: 22px;
+        margin-bottom: 15px;
+        text-align: right;
+        padding: 10px;
+        border: none;
+        border-radius: 10px;
+        background: rgba(0, 0, 0, 0.6);
+        color: #e0b3ff;
+        box-shadow: inset 0 0 10px rgba(138, 43, 226, 0.8);
+    }
+
+    .buttons {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+    }
+
+    button {
+        padding: 15px;
+        font-size: 16px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        background: rgba(138, 43, 226, 0.3);
+        color: #fff;
+        transition: 0.2s;
+        box-shadow: 0 0 10px rgba(138, 43, 226, 0.4);
+    }
+
+    button:hover {
+        background: rgba(186, 85, 211, 0.7);
+        transform: scale(1.05);
+    }
+
+    .equal {
+        background: linear-gradient(45deg, #d633ff, #8a2be2);
+        box-shadow: 0 0 15px #d633ff;
+    }
+
+    .equal:hover {
+        background: linear-gradient(45deg, #ff66ff, #9933ff);
+    }
+
+    .special {
+        background: rgba(255, 105, 180, 0.4);
+        box-shadow: 0 0 10px pink;
+    }
+
+    .special:hover {
+        background: rgba(255, 20, 147, 0.8);
+    }
+</style>
+</head>
+<body>
+
+<div class="calculator">
+    <input type="text" id="display" disabled>
+
+    <div class="buttons">
+        <button onclick="clearDisplay()">C</button>
+        <button onclick="deleteLast()">⌫</button>
+        <button onclick="append('/')">/</button>
+        <button onclick="append('*')">*</button>
+
+        <button onclick="append('7')">7</button>
+        <button onclick="append('8')">8</button>
+        <button onclick="append('9')">9</button>
+        <button onclick="append('-')">-</button>
+
+        <button onclick="append('4')">4</button>
+        <button onclick="append('5')">5</button>
+        <button onclick="append('6')">6</button>
+        <button onclick="append('+')">+</button>
+
+        <button onclick="append('1')">1</button>
+        <button onclick="append('2')">2</button>
+        <button onclick="append('3')">3</button>
+        <button class="equal" onclick="calculate()">=</button>
+
+        <button onclick="append('0')">0</button>
+        <button onclick="append('.')">.</button>
+        <button class="special" onclick="showDeveloper()">A</button>
+        <button class="special" onclick="showApp()">B</button>
+    </div>
+</div>
+
+<script>
+    let display = document.getElementById("display");
+
+    function append(value) {
+        display.value += value;
+    }
+
+    function clearDisplay() {
+        display.value = "";
+    }
+
+    function deleteLast() {
+        display.value = display.value.slice(0, -1);
+    }
+
+    function calculate() {
+        try {
+            if (display.value === "") return;
+            display.value = Function("return " + display.value)();
+        } catch {
+            alert("Invalid Expression");
+        }
+    }
+
+    function showDeveloper() {
+        alert("Developer: Julie Pearl Gonzales\nCourse: BS Information Technology\nSchool: MSU Zamboanga Sibugay");
+    }
+
+    function showApp() {
+        alert("Application: Web Calculator\nVersion: 1.0\nDescription: A simple calculator similar to Windows OS.");
+    }
+
+    document.addEventListener("keydown", function(e) {
+        if (!isNaN(e.key) || "+-*/.".includes(e.key)) {
+            append(e.key);
+        } else if (e.key === "Enter") {
+            calculate();
+        } else if (e.key === "Backspace") {
+            deleteLast();
+        } else if (e.key === "Escape") {
+            clearDisplay();
+        }
+    });
+</script>
+
+</body>
+</html>
